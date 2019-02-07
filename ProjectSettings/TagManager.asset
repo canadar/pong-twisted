@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ball
+  - RedScore
+  - BlueScore
+  - Shots
+  - WinnerText
   layers:
   - Default
   - TransparentFX

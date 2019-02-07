@@ -6,13 +6,12 @@ public class Ball : MonoBehaviour
     private int _left;
     private int _up;
 
+    private Vector3 _startLocation;
+
     private void Start()
     {
-        var rand = new System.Random();
-        var values = new [] {-1, 1};
-        
-        _left = values[rand.Next(0, values.Length)];
-        _up = values[rand.Next(0, values.Length)];
+        RandomizeDirection();
+        _startLocation = transform.position;
     }
 
     private void Update()
@@ -38,5 +37,26 @@ public class Ball : MonoBehaviour
     {
         transform.position += transform.forward * _ballSpeed * Time.deltaTime * _left;
         transform.position += transform.right *_ballSpeed * Time.deltaTime * _up;
+    }
+
+    private void RandomizeDirection()
+    {
+        var rand = new System.Random();
+        var values = new [] {-1, 1};
+        
+        _left = values[rand.Next(0, values.Length)];
+        _up = values[rand.Next(0, values.Length)];
+    }
+
+    public void ResetBall()
+    {
+        transform.position = _startLocation;
+        RandomizeDirection();
+        _ballSpeed = 5;
+    }
+
+    public void HasBeenShot(Vector3 dir)
+    {
+       //need logic here to dart ball to proper direction
     }
 }

@@ -1,26 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PongManager : MonoBehaviour
 {
-    private int _blueScore = 0;
-    private int _redScore = 0;
+    private int _blueScore;
+    private int _redScore;
+    
+    private Text _blueScoreText;
+    private Text _redScoreText;
+    private Text _winnerText;
 
     private bool _winner;
 
-    private GameObject _ball;
-    private Transform _ballSpawnLocation;
-    
-    //Maybe use these for UI?
-    public int RedScore
-    {
-        get { return _redScore; }
-    }
-    
-    public int BlueScore
-    {
-        get { return _blueScore; }
-    }
-
+    private Ball _ball;
+        
     public void PlayerScored(string player)
     {
         if (player.Contains("Red"))
@@ -32,22 +25,27 @@ public class PongManager : MonoBehaviour
             _blueScore++;
         }
         
+        UpdateScoreText();
         CheckWinCondition();
-        ResetBall();
+        _ball.ResetBall();
     }
     
     private void Start()
     {
-        _ball = GameObject.FindGameObjectWithTag("Ball");
-        _ballSpawnLocation = _ball.transform;
+        _redScoreText = GameObject.FindGameObjectWithTag("RedScore").GetComponent<Text>();
+        _blueScoreText = GameObject.FindGameObjectWithTag("BlueScore").GetComponent<Text>();
+        _winnerText = GameObject.FindGameObjectWithTag("WinnerText").GetComponent<Text>();
+
+        _ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+                        
+        UpdateScoreText();
     }
 
     private void Update()
     {
-        if (_winner)
-        {
-            
-        }
+        if (!_winner) return;
+        _ball.enabled = false;
+        _winnerText.text = _blueScore > _redScore ? "BLUE PLAYER WINS" : "RED PLAYER WINS";
     }
 
     private void CheckWinCondition()
@@ -58,9 +56,16 @@ public class PongManager : MonoBehaviour
         }
     }
 
-    private void ResetBall()
+    private void UpdateScoreText()
     {
-        Destroy(_ball);
-        Instantiate(_ball, _ballSpawnLocation, true);
+        if (_redScoreText != null)
+        {
+            _redScoreText.text = _redScore.ToString();
+        }
+
+        if (_blueScoreText != null)
+        {
+            _blueScoreText.text = _blueScore.ToString();
+        }
     }
 }
