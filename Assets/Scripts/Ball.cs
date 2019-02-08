@@ -58,5 +58,6 @@ public class Ball : MonoBehaviour
     public void HasBeenShot(Vector3 dir)
     {
        //need logic here to dart ball to proper direction
+       Debug.Log(dir);
     }
 }

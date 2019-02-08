@@ -68,14 +68,15 @@ public class PlayerController : MonoBehaviour
         //doesnt quite work yet, need better clamping for vertical camera movement
         if (_mouseLookV >= -10.0f && _mouseLookV <= 10.0f)
         {
-            _playerCamera.transform.localRotation = Quaternion.AngleAxis(_mouseLookV, _playerCamera.transform.right);
+            //_playerCamera.transform.localRotation = Quaternion.AngleAxis(_mouseLookV, _playerCamera.transform.right);
         }
 
         if (Input.GetButtonDown("Fire1") && _playerCamera != null && _shots > 0)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out raycastHit, 30.0f))
+            if (Physics.Raycast(_playerCamera.transform.position, _playerCamera.transform.forward, out raycastHit))
             {
+                Debug.Log(raycastHit.transform.name);
                 if (raycastHit.transform.name.Equals("Ball"))
                 {
                     FireShot();
@@ -90,7 +91,6 @@ public class PlayerController : MonoBehaviour
     {
         if (_ball == null) return;
         
-        Debug.Log("Hit the ball");
         _ball.HasBeenShot(_playerCamera.transform.forward);
     }
 }
